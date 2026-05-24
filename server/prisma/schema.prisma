@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  password        String
+  name            String          @default("")
+  createdAt       DateTime        @default(now())
+  ownedProjects   Project[]       @relation("ProjectOwner")
+  assignedTasks   Task[]          @relation("TaskAssignee")
+  habitCategories HabitCategory[]
+  habits          Habit[]
+  habitLogs       HabitLog[]
+  mindsetLogs     MindsetLog[]
+  weeklyGoals     WeeklyGoal[]
+  dailyTasks      DailyTask[]
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  color       String
+  emoji       String?
+  status      ProjectStatus @default(ACTIVE)
+  ownerId     String
+  owner       User          @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+  createdAt   DateTime      @default(now())
+}
+
+model Task {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  status       TaskStatus   @default(TODO)
+  priority     TaskPriority @default(MEDIUM)
+  dueDate      DateTime?
+  projectId    String
+  project      Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignedToId String?
+  assignee     User?        @relation("TaskAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  completedAt  DateTime?
+  createdAt    DateTime     @default(now())
+}
+
+model HabitCategory {
+  id      String  @id @default(cuid())
+  name    String
+  emoji   String?
+  color   String
+  userId  String
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habits  Habit[]
+}
+
+model Habit {
+  id         String        @id @default(cuid())
+  name       String
+  emoji      String?
+  color      String
+  categoryId String
+  category   HabitCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now())
+  isActive   Boolean       @default(true)
+  logs       HabitLog[]
+}
+
+model HabitLog {
+  id        String   @id @default(cuid())
+  habitId   String
+  habit     Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime
+  completed Boolean  @default(false)
+  note      String?
+
+  @@unique([habitId, date])
+}
+
+model MindsetLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date       DateTime
+  mood       Int
+  energy     Int
+  focus      Int
+  motivation Int
+  note       String?
+
+  @@unique([userId, date])
+}
+
+model WeeklyGoal {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStart DateTime
+  title     String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+/** Personal day planner tasks — not tied to projects. */
+model DailyTask {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  dueDate     DateTime
+  completedAt DateTime?
+  createdAt   DateTime     @default(now())
+}
