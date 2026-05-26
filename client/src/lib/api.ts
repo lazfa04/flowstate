@@ -1,9 +1,10 @@
-/** Base URL for the FlowState API (no trailing slash). */
+/** Base URL for the FlowState API (no trailing slash). Empty = same origin (Vercel `/api` rewrite). */
 export function getApiBase(): string {
   const raw = import.meta.env.VITE_API_URL
   if (typeof raw === 'string' && raw.trim()) {
     return raw.trim().replace(/\/$/, '')
   }
+  if (import.meta.env.PROD) return ''
   return 'http://localhost:4000'
 }
 

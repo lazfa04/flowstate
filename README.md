@@ -8,7 +8,7 @@ Personal productivity and project tracker — full-stack scaffold with a FlowSta
 |----------|------|
 | Client   | React, Vite, TypeScript, Tailwind CSS, Recharts, Zustand |
 | Server   | Node.js, Express, TypeScript |
-| Database | SQLite via Prisma ORM |
+| Database | PostgreSQL (Supabase) via Prisma ORM |
 | Auth     | JWT (email + password, bcrypt-hashed) |
 
 ## Repo layout
@@ -20,13 +20,18 @@ Personal productivity and project tracker — full-stack scaffold with a FlowSta
 
 ## Quick start
 
+### Deploy to production
+
+See **[DEPLOY.md](./DEPLOY.md)** for Vercel + Supabase setup.
+
 ### 1. Server
 
 ```bash
 cd server
 cp .env.example .env   # Windows: copy .env.example .env
+# Add Supabase DATABASE_URL, DIRECT_URL, and JWT_SECRET
 npm install
-npx prisma migrate dev --name init
+npx prisma migrate deploy
 npm run dev
 ```
 
