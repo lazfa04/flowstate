@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import authRoutes from './routes/auth.js'
 import goalsRoutes from './routes/goals.js'
+import yearProgressRoutes from './routes/yearProgress.js'
 import habitsRoutes from './routes/habits.js'
 import mindsetRoutes from './routes/mindset.js'
 import projectsRoutes from './routes/projects.js'
@@ -34,6 +35,7 @@ app.use('/api/users', usersRoutes)
 app.use('/api/habits', habitsRoutes)
 app.use('/api/mindset', mindsetRoutes)
 app.use('/api/goals', goalsRoutes)
+app.use('/api/year-progress', yearProgressRoutes)
 
 app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' })

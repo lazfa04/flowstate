@@ -10,6 +10,7 @@ import {
   Repeat,
   Settings,
   Target,
+  CalendarRange,
   Zap,
 } from 'lucide-react'
 import { useAuthStore } from '../../stores/authStore'
@@ -155,6 +156,15 @@ export default function AppShell() {
             {!showCollapsed && <span className="truncate">Weekly Goals</span>}
           </NavLink>
           <NavLink
+            to="/year-in-progress"
+            title="Year in Progress"
+            className={({ isActive }) => navClass(isActive, showCollapsed)}
+            onClick={() => setMobileOpen(false)}
+          >
+            <CalendarRange className="h-5 w-5 shrink-0 opacity-90" aria-hidden />
+            {!showCollapsed && <span className="truncate">Year in Progress</span>}
+          </NavLink>
+          <NavLink
             to="/settings"
             title="Settings"
             className={({ isActive }) => navClass(isActive, showCollapsed)}
@@ -209,7 +219,10 @@ export default function AppShell() {
             key={location.pathname}
             className={cn(
               'animate-page-in mx-auto w-full py-5',
-              location.pathname === '/' || location.pathname === '/habits' || location.pathname === '/mindset'
+              location.pathname === '/' ||
+                location.pathname === '/habits' ||
+                location.pathname === '/mindset' ||
+                location.pathname === '/year-in-progress'
                 ? 'max-w-[min(100%,1920px)] px-6 py-2'
                 : 'max-w-[1600px] px-3 py-4 md:px-5 md:py-5',
             )}

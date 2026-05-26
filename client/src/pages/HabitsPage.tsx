@@ -38,7 +38,11 @@ const HABIT_EMOJI_OPTIONS = [
 const INCOMPLETE_CELL_BASE = 'bg-[#1C2035] text-transparent'
 const HABIT_COL_CLASS =
   'sticky left-0 z-20 w-[160px] max-w-[160px] border-r border-[#2A2F47] bg-[#141726] px-2'
-const CELL_CLASS = 'mx-auto flex h-7 w-7 items-center justify-center rounded-sm border border-solid text-[10px] font-semibold'
+const DAY_COL_CLASS = 'w-6 min-w-[24px] max-w-[24px]'
+const HABIT_DATA_ROW_CLASS = 'border-b border-[#2A2F47]/60'
+const HABIT_ROW_CELL_PY = 'py-2.5'
+const CELL_CLASS =
+  'mx-auto flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border border-solid text-[8px] font-semibold leading-none'
 
 type HabitRow = {
   id: string
@@ -409,7 +413,7 @@ export default function HabitsPage() {
                         <th
                           key={d}
                           scope="col"
-                          className="w-7 min-w-[28px] max-w-[28px] px-0 py-0.5 text-center font-normal"
+                          className={`${DAY_COL_CLASS} px-0 py-0.5 text-center font-normal`}
                           style={{
                             backgroundColor: `${band}22`,
                             opacity: isFuture ? 0.45 : 1,
@@ -434,8 +438,8 @@ export default function HabitsPage() {
                 </thead>
                 <tbody>
                   {habits.map((h) => (
-                    <tr key={h.id} className="border-b border-[#2A2F47]/60">
-                      <th scope="row" className={`${HABIT_COL_CLASS} py-0.5 text-left font-normal`}>
+                    <tr key={h.id} className={HABIT_DATA_ROW_CLASS}>
+                      <th scope="row" className={`${HABIT_COL_CLASS} ${HABIT_ROW_CELL_PY} text-left font-normal`}>
                         <div
                           className="flex items-center gap-1"
                           title={h.name}
@@ -454,7 +458,7 @@ export default function HabitsPage() {
                         const weekHex = weekBandColorForDay(d)
                         const incompleteBorder = weekBandBorderHex(weekHex, '4D')
                         return (
-                          <td key={d} className="w-7 min-w-[28px] p-0 text-center align-middle">
+                          <td key={d} className={`${DAY_COL_CLASS} ${HABIT_ROW_CELL_PY} px-0 text-center align-middle`}>
                             <button
                               type="button"
                               disabled={isFuture || busy}
@@ -690,7 +694,7 @@ function StatsRow({
       {dailyStats.map((s) => (
         <td
           key={`${label}-${s.dateKey}`}
-          className={`w-7 min-w-[28px] px-0 py-0.5 text-center text-[9px] tabular-nums leading-none ${className}`}
+          className={`${DAY_COL_CLASS} px-0 py-0.5 text-center text-[9px] tabular-nums leading-none ${className}`}
         >
           {format(s)}
         </td>

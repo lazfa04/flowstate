@@ -7,6 +7,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import ProjectsPage from './pages/ProjectsPage'
 import SettingsPage from './pages/SettingsPage'
 import WeeklyGoalsPage from './pages/WeeklyGoalsPage'
+import YearInProgressPage from './pages/YearInProgressPage'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="habits" element={<HabitsPage />} />
           <Route path="mindset" element={<MindsetPage />} />
           <Route path="goals" element={<WeeklyGoalsPage />} />
+          <Route path="year-in-progress" element={<YearInProgressPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
