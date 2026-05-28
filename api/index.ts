@@ -1,3 +1,4 @@
-export default function (req: any, res: any) {
-  res.json({ ok: true, test: 'minimal' })
-}
+import { createApp } from '../server/src/app.js'
+
+const app = createApp()
+export default app
