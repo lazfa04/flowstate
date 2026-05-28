@@ -1,4 +1,4 @@
-import { createApp } from '../server/dist/app.js'
+import { createApp } from '../server/src/app.js'
 
 const app = createApp()
 export default app
