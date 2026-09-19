@@ -59,6 +59,7 @@ export function createApp() {
   })
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error(err)
     const name = err && typeof err === 'object' && 'name' in err ? String((err as { name: unknown }).name) : ''
     if (name === 'PrismaClientInitializationError') {
       res.status(503).json({ error: 'Database unavailable. Set a valid DATABASE_URL in server/.env' })
